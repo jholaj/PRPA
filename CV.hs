@@ -80,3 +80,38 @@ nsd' a b = nsd' b (zbytek a b)
 -- where
 nsd'' a b = nsd' b x
     where x = zbytek a b
+
+-- seznamy
+s1 = [1..100]   -- rozsahem, vzestupne
+s2 = [100,99..1]
+s3 = [(-1),(-2)..(-10)]
+s4 = [10,20..100]
+s4' = [10 * x | x <- [1..10]]
+s5 = [100, 90..10]
+
+mocniny = [x ^ 2 | x <- [1..10]] -- intenzionalni zapis
+mocniny' = [mocnina x  2 | x <- [1..10]] 
+
+variace = [[x, y, z] | x <- [1..4], y <- [1..4], z <- [1..4]]
+variace' = let s = [1..4] in [[x, y, z] | x <- s, y <- s, z <- s] -- let
+variace'' = let s = [1..4] in [(x, y, z) | x <- s, y <- s, z <- s] -- n-tice
+
+mocninySudych = [x ^ 2 | x <- [1..10], even x] -- filtr
+mocninySudych' = [x ^ 2 | x <- [2,4..10]]
+
+delitele = let cislo = 1200600 in [x | x <- [1..cislo], (zbytek cislo x) == 0]
+delitele' cislo =[x | x <- [1..cislo], (zbytek cislo x) == 0]
+
+-- prvni seznam v poli
+prvni (hlava:telo) = hlava 
+prvni' (hlava:_) = hlava 
+
+-- druhy
+druhy (_:druhy:_) = druhy
+druhy'(_:telo) = prvni telo
+
+-- telo seznamu 
+telo (_:telo) = telo
+
+posledni [x] = x -- pokud jednoprvkovy
+posledni (_:telo) = posledni telo -- rekurze, sekame hlavy
