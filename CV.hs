@@ -78,7 +78,7 @@ nsd' a 0 = a
 nsd' a b = nsd' b (zbytek a b)
 
 -- where
-nsd'' a b = nsd' b x
+nsd'' a b = nsd'' b x
     where x = zbytek a b
 
 -- seznamy
@@ -115,3 +115,35 @@ telo (_:telo) = telo
 
 posledni [x] = x -- pokud jednoprvkovy
 posledni (_:telo) = posledni telo -- rekurze, sekame hlavy
+
+predposledni [x, _] = x  -- pole obsahuje dva prvky, vrátíme první z nich.
+predposledni (_:telo) = predposledni telo 
+
+prvek _ [] = False -- pada to protoze se seznam vycerpal... proto false (zadna koncova podminka)
+prvek a (x:xs)
+    | a == x = True
+    | otherwise = prvek a xs
+
+-- nty prvek seznamu
+-- usekneme hlavu a prvky jsou na pozici o 1 nižší
+nty n (x:xs)
+    | n == 1 = x
+    | otherwise = nty (n - 1) xs
+-- nebo
+nty' 1 (x:_) = x
+nty' n (_:xs) = nty'(n - 1) xs
+
+-- delka pole
+delka [] = 0
+delka (_:xs) = 1 + delka xs
+
+-- soucet seznamu
+soucet [] = 0  -- seznam prazdny => soucet je 0.
+soucet (x:xs) = x + soucet xs
+
+-- soucet seznamu
+soucin [] = 1  -- seznam prazdny => soucin je 0.
+soucin (x:xs) = x * soucin xs
+
+nejmensi [x] = x
+nejmensi (x:xs) = if x < nejmensi xs then x else nejmensi xs
