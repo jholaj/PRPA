@@ -80,8 +80,8 @@ nsd' a b = nsd' b (zbytek a b)
 -- where
 nsd'' a b = nsd'' b x
     where x = zbytek a b
-
--- seznamy
+-----------------------------------------
+-- SEZNAMY
 s1 = [1..100]   -- rozsahem, vzestupne
 s2 = [100,99..1]
 s3 = [(-1),(-2)..(-10)]
@@ -147,3 +147,54 @@ soucin (x:xs) = x * soucin xs
 
 nejmensi [x] = x
 nejmensi (x:xs) = if x < nejmensi xs then x else nejmensi xs
+
+-- smazat prvni element
+smazPrvni _ [] = []
+smazPrvni a (x:xs)
+    | a == x = xs   -- pokud jsme nasli shodu, odstranime prvek a vratime zbytek seznamu
+    | otherwise = x : smazPrvni a xs 
+
+-- smazat vsechny elementy
+smazVsechny _ [] = []
+smazVsechny a (x:xs)
+    | a == x = smazVsechny a xs   -- pokud jsme nasli shodu, odstranime prvek a vratime zbytek seznamu
+    | otherwise = x : smazVsechny a xs
+
+-- otoceni seznamu
+otoc xs = otoc' xs []
+
+-- pomocna funkce
+-- otoc' xs akumulator
+otoc' [] akumulator = akumulator
+otoc' (x:xs) akumulator = otoc' xs (x:akumulator)
+
+-- REZY
+-----------------------------------------
+-- zvyseni o 2
+zvysO2 = (+2)
+-- umocneni na 6
+umocniNa6 = (^6)
+-- umocneni hodnoty 6 na jeji argument
+umocni6 = (6^)
+
+-- aplikace funkce f na argumenty a b
+aplikujBinarniFunkci a b f = f a b
+-- pouziti
+a1 = aplikujBinarniFunkci 1 2 (+)
+-- pouziti castecne implementace
+abf12 = aplikujBinarniFunkci 1 2 
+aabf = abf12 (+)
+
+-- zvyseni o 1
+zvys [] = []
+zvys (x:xs) = (x + 1) : zvys xs
+
+-- aplikace funkce na prvky seznamu
+-- funkce map
+aplikujNaPrvkySeznamu _ [] = [] 
+aplikujNaPrvkySeznamu f (x:xs) = f x : aplikujNaPrvkySeznamu f xs
+
+aplikaceAbf12 = aplikujNaPrvkySeznamu abf12 [(+), (-), (*), (/)]
+
+--zmena znamenka v seznamech VNORENE
+zmenaZnamenekVSeznamech xs = aplikujNaPrvkySeznamu (aplikujNaPrvkySeznamu negate) xs
