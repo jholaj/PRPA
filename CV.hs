@@ -198,3 +198,17 @@ aplikaceAbf12 = aplikujNaPrvkySeznamu abf12 [(+), (-), (*), (/)]
 
 --zmena znamenka v seznamech VNORENE
 zmenaZnamenekVSeznamech xs = aplikujNaPrvkySeznamu (aplikujNaPrvkySeznamu negate) xs
+
+---------------------------------------------
+
+fch2 a = if a == 10 then a < 10 else a > 10
+
+ztrojSude [] = []
+ztrojSude (x:xs)
+    | x `mod` 2 == 0 = (3 * x) : ztrojSude xs 
+    | otherwise = x : ztrojSude xs  
+
+fce4 x y
+    | x < 0     = 2 * y
+    | x == 0    = 3 * y
+    | otherwise = 4 * y
