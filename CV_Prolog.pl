@@ -2,7 +2,7 @@
 % cislice(objekt, ktery bude cislici).
 % AND operator => ,
 % OR operator => ;
-% NOT operator => \+
+% NOT operator => \+     // opak pozitivniho
 % Deleni => /
 % Celociselne deleni => //
 % Mensi\Vetsi nebo rovno => >= // =<
@@ -40,7 +40,6 @@
 % Variace aby tri cisla nebyly stejne
 % cislice(A), cislice(B), cislice(C),  A \= B, A \= C, B \= C.
 
-
 % Program.
 
 cislice(0).
@@ -54,7 +53,7 @@ cislice(7).
 cislice(8).
 cislice(9).
 
-% N:\Ukazky\Karel.Maly\rodina.pdf
+% N:\Ukazky\Karel.Maly\prolog\rodina.pdf
 
 % zeny
 zena(romana).
@@ -135,3 +134,84 @@ predek(Predek, Osoba) :- rodice(Rodic, Osoba), predek(Predek, Rodic).
 % predek(karel, Potomek).
 % nebo...
 potomek(Potomek, Predek) :- predek(Predek, Potomek).
+
+% \+ muz(A). // zadny muzi v databazi nejsou? => false.
+% \+ \+ muz(A). // negace negace... vraci true.
+
+% osoba(A), \+ muz(A). => vypise vsechny osoby, co nejsou muzi
+osoba(A) :- muz(A); zena(A).
+% osoba pro kterou plati, ze neni muz
+neni_muz(A) :- osoba(A), \+ muz(A).
+
+% write(ahoj). => vypise ahoj true.
+% write(ahoj), nl. => odradkovani
+% A = ahoj, write(A). => ahoj
+% write(A), nl. => neco random
+% read(A). => ceka co napisu // vstup... ! i vstup je ukončen tečkou
+% read(ahoj). => vstup ahoj. => true.
+% read(ahoj). => vstup nazdar. => false.
+
+% Uloha nalezeni predku zadane osoby.
+% vypise jen jednoho predka
+% doplnime predikat, ktery nebude nikdy splnen => fail => vypise vsechny.
+vypsani_predku :- write('Zadejte jmeno osoby:'), nl, read(Osoba), predek(Predek, Osoba), write('Nalezeny predek: '), write(Predek), nl, fail.
+% aby konec byl true
+vypsani_predku.
+
+% vypsani muzu
+% muz(A), write(A), nl, fail.
+
+% aritmeticky prumer
+aritmeticky_prumer :- 
+    write('Zadejte dve hodnoty pro aritmeticky prumer:'), 
+    nl, 
+    read(PHodnota), 
+    read(DHodnota), 
+    Prumer is (PHodnota + DHodnota) / 2,
+    write('Aritmeticky prumer je: '), 
+    write(Prumer), 
+    nl.
+
+% faktorial
+% vztah mezi hodnotou N a faktorialem cisla
+% faktorial (N, !N)
+% faktorial(5, F) => F = 120.
+faktorial(0, 1).
+faktorial(N, F) :- 
+    N > 0,
+    N1 is N - 1,
+    faktorial(N1, F1),
+    F is N * F1.
+
+% N:\Ukazky\Karel.Maly\prolog\trojuhelnik.pdf
+
+trojuhelnik(A,B,C,D,E,F) :-
+    cislice(A),
+    cislice(B),
+    cislice(C),
+    cislice(D),
+    cislice(E),
+    cislice(F),
+
+    A \= B,
+    A \= C,
+    A \= D,
+    A \= E,
+    A \= F,
+
+    B \= C,   
+    B \= D,
+    B \= E,
+    B \= F,
+   
+    C \= D,
+    C \= E,
+    C \= F,
+
+    D \= E,
+    D \= F,
+
+    E \= F,
+
+    A + B + C =:= C + D + E,
+    C + D + E =:= A + E + F.
