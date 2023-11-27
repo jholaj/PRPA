@@ -215,3 +215,109 @@ trojuhelnik(A,B,C,D,E,F) :-
 
     A + B + C =:= C + D + E,
     C + D + E =:= A + E + F.
+
+vypis_trojuhelnik :-
+    trojuhelnik(A,B,C,D,E,F),
+    write(A:B:C:D:E:F),
+    nl,
+    fail.
+vypis_trojuhelnik.
+
+% SEZNAMY.
+% [1,2,3,4] = [Hlava|Telo].
+% Hlava = 1
+% Telo = [2,3,4]
+
+% [1] = [Hlava|Telo].
+% Hlava = 1
+% Telo = []
+
+% Spojeni seznamu
+% S = [1,2,3,4], S2 = [0|S]
+% S = [1,2,3,4] ,
+% S2 = [0,1,2,3,4]
+
+% [1,2,3,4] = [A,B,C|T].
+% A = 1, B = 2, C = 3, T = [4]
+
+% Vypsani hlavy a tela seznamu
+% vypis_hlavu_a_telo(Seznam).
+vypis_hlavu_a_telo([Hlava|Zbytek]) :-
+    write('Hlava seznamu: '), write(Hlava), nl,
+    write('Telo seznamu: '), write(Zbytek).
+% Hlava seznamu: 1
+% Telo seznamu: [2,3,4,5,6,7]
+% vypis_hlavu_a_telo([1]).
+% Hlava seznamu: 1
+% Telo seznamu: []
+% vypis_hlavu_a_telo([]).
+% false.
+
+% prvni prvek
+% prvni(Prvni, Seznam).
+prvni(Prvni, [Prvni|_]).
+% prvni(Prvni, []). -> false.
+% prvni(Prvni, [1]). -> Prvni = 1.
+% prvni(1, [1,2,3,4]). -> true.
+
+% druhy prvek
+druhy(Druhy, [_, Druhy|_]).
+% druhy(Druhy, [1]). -> false.
+
+% posledni
+posledni(Posledni, [Posledni]).
+posledni(Posledni, [_|Zbytek]) :- posledni(Posledni,Zbytek).
+
+% predposledni
+predposledni(Predposledni, [Predposledni, _]).
+predposledni(Predposledni, [_|Zbytek]) :-
+    predposledni(Predposledni, Zbytek).
+
+% je v seznamu?
+% prvek(Prvek, Seznam).
+prvek(Prvek, [Prvek|_]).
+prvek(Prvek, [_|Zbytek]) :- 
+    prvek(Prvek, Zbytek).
+% prvek(3, [1,2,3,4]). -> true.
+% prvek(5, [1,2,3,4]). -> false.
+% prvek(P, [1,2,3,4]). -> vycet prvku seznamu, kdy to bude platit
+% v prologu uz vestavena funkce... member
+% member(P, [1,2,3,4]).
+
+% v seznamu muze byt cokoliv
+% prvek(P, [1,a,1 + 2, ahoj]).
+
+% vypis_prvky(Seznam).
+vypis_prvky([]).
+vypis_prvky([Prvek|Zbytek]) :-
+    write(Prvek), nl,
+    vypis_prvky(Zbytek).
+
+% obracene
+vypis_obracene([]).
+vypis_obracene([Prvek|Zbytek]) :- 
+    vypis_obracene(Zbytek),
+    write(Prvek), nl.
+
+% n-ty prvek
+nty([Prvek|_], 1, Prvek).
+nty([_|Telo], N, Prvek) :- 
+    N > 1,
+    N2 is N - 1, 
+    nty(Telo, N2, Prvek).
+% nty([1,2,3,4],3, Prvek). -> Prvek = 3
+% nty([1,2,3,4],10, Prvek). -> false.
+
+% pouze kladna cisla
+% kladna_cisla(Seznam).
+kladna_cisla([]).
+kladna_cisla([Hlava|Telo]) :-
+    number(Hlava),
+    Hlava > 0,
+    kladna_cisla(Telo).
+% kladna_cisla([1,-2,3]). -> false.
+% kladna_cisla([1,2,3]). -> true.
+% kladna_cisla([1,a,3]). -> false.
+
+
+
