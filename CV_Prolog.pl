@@ -319,5 +319,95 @@ kladna_cisla([Hlava|Telo]) :-
 % kladna_cisla([1,2,3]). -> true.
 % kladna_cisla([1,a,3]). -> false.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% dobrovolne veci
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% jak zjistit delku seznamu
+
+delkaI([], 0).
+delkaI([_|T], D):-
+    delkaI(T, D2),
+    D is D2 + 1.
+
+soucet([], 0).
+soucet([H|T], S):-
+    soucet(T, S2),
+    S is S2 + H.
+
+% predikat pro spojeni dvou seznamu
+
+% v podstate pridavam hlavu jednoho seznamu k telu toho druheho, rekurzivne
+
+% pomoci prikazu spoj(S1, S2, [1,2,3,4,5,6]). mi vrati veskere kombinace jak vytvorit seznam S3 pomoci S1 a S2
+spoj([], S2, S2).
+spoj([H|T], S2, [H|S3]):-
+    spoj(T, S2, S3).
+
+% mazani prvku v seznamu
+
+%  tohle rika jestli je prvek v hlave tak vrat telo
+smaz(_, [], []).
+smaz(P, [P|S1], S1).
+smaz(P, [X|S1], [X|S2]):-
+    P \= X,
+    smaz(P, S1, S2).
+
+smaz_vse(_, [], []).
+smaz_vse(P, [P|S1], S1):-
+    smaz_vse(P, S1, S2).
+smaz_vse(P, [X|S1], [X|S2]):-
+    P \= X,
+    smaz_vse(P, S1, S2).
+
+
+%vytkni(Prvek, [1,2,3,4,5,6,7,8,9], S). mi da vsechny variace toho co muzu smazat ze seznamu
+vytkni(P, [P|S1], S1).
+vytkni(P, [X|S1], [X|S2]):-
+    vytkni(P, S1, S2).
+
+%otoc seznam
+
+%otoc bez akumulatoru
+otoc(S1, S2):-
+    otoc(S1, [], S2).
+
+% otoc s akumulatorem
+otoc([], A, A).
+otoc([H|T], A, S2):-
+    otoc(T, [H|A], S2).
+
+
+% uzivatel neco zada a cilem je overit ze prvni a posledni pismeno jsou stejne 
+slovo:-
+    write('Zadejte slovo'),
+    nl,
+    read(Slovo),
+    name(Slovo, Seznam),
+    prvni(Prvni, Seznam),
+    posledni(Prvni, Seznam).
+    
+% virus
+
+vir:-
+    repeat,
+    write('Chci susenku'),
+    nl,
+    read(susenka),
+    !.
+
+vzestupne(0).
+vzestupne(N):-
+    asserta(c(N)),
+    N2 is N - 1,
+    vzestupne(N2).
+
+pocet:-
+    retractall(pocitadlo(_)),
+    asserta(pocitadlo(0)),
+    c(A),
+    retract(pocitadlo(N)),
+    N2 is N + 1,
+    asserta(pocitadlo(N2)),
+    fail.
 
 
